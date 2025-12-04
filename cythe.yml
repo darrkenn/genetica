@@ -5,4 +5,4 @@ steps:
   - name: Test
     run: cargo test -q
   - name: Publish
-    run: cargo publish --token ${CRATES_IO_TOKEN}
+    run: cargo publish --token ${CRATES_IO_TOKEN} --allow-dirty
