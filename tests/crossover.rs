@@ -42,7 +42,7 @@ fn test_single_point_crossover_success() {
         genes: parent2_genes,
         fitness: None,
     };
-    let (child1, child2) = single_point_crossover(parent1, parent2, 1.00);
+    let (child1, child2) = single_point_crossover(&parent1, &parent2, 1.00);
 
     assert_ne!(child1.genes, parent1_genes);
     assert_ne!(child2.genes, parent2_genes);
@@ -71,7 +71,7 @@ fn test_single_point_crossover_no_probability() {
         genes: parent2_genes,
         fitness: None,
     };
-    let (child1, child2) = single_point_crossover(parent1, parent2, 0.00);
+    let (child1, child2) = single_point_crossover(&parent1, &parent2, 0.00);
 
     assert_eq!(child1.genes, parent1_genes);
     assert_eq!(child2.genes, parent2_genes);
