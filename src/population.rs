@@ -1,35 +1,29 @@
-use crate::individual::{Chromosome, Generate, Mutate};
+use crate::individual::Individual;
 
 /// Generates a new population of chromosomes
-///
-///
-pub fn generate_population<GeneType, const GENESIZE: usize>(
-    population_size: i32,
-) -> Vec<Chromosome<GeneType, GENESIZE>>
+pub fn generate_population<I>(population_size: i32) -> Vec<I>
 where
-    GeneType: Generate + Mutate,
+    I: Individual,
 {
-    let mut population: Vec<Chromosome<GeneType, GENESIZE>> = Vec::new();
+    let mut population: Vec<I> = Vec::new();
     for _ in 0..population_size {
-        population.push(Chromosome::new());
+        population.push(Individual::new());
     }
     population
 }
 
-// Sorts a population by ascending fitness
-pub fn sort_population_ascending<GeneType, const GENESIZE: usize>(
-    population: &mut Vec<Chromosome<GeneType, GENESIZE>>,
-) where
-    GeneType: Generate + Mutate,
+/// Sorts a population by ascending fitness
+pub fn sort_population_ascending<I>(population: &mut Vec<I>)
+where
+    I: Individual,
 {
-    population.sort_by(|a, b| a.fitness.unwrap().cmp(&b.fitness.unwrap()));
+    population.sort_by(|a, b| a.fitness().unwrap().cmp(&b.fitness().unwrap()));
 }
 
-// Sorts a population by descending fitness
-pub fn sort_population_descending<GeneType, const GENESIZE: usize>(
-    population: &mut Vec<Chromosome<GeneType, GENESIZE>>,
-) where
-    GeneType: Generate + Mutate,
+/// Sorts a population by descending fitness
+pub fn sort_population_descending<I>(population: &mut Vec<I>)
+where
+    I: Individual,
 {
-    population.sort_by(|a, b| b.fitness.unwrap().cmp(&a.fitness.unwrap()));
+    population.sort_by(|a, b| b.fitness().unwrap().cmp(&a.fitness().unwrap()));
 }

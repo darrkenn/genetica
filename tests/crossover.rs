@@ -1,7 +1,8 @@
-use genetica::crossover::{single_point_crossover, two_point_crossover};
-use genetica::individual::Chromosome;
+use std::array;
 
-use genetica::individual::{Generate, Mutate};
+use genetica::crossover::{single_point_crossover, two_point_crossover};
+
+use genetica::individual::{Generate, Individual, Mutate};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 struct GeneType(pub bool);
@@ -20,6 +21,44 @@ impl Mutate for GeneType {
     }
 }
 
+#[derive(Debug, Clone, Copy)]
+struct Chromosome {
+    genes: [GeneType; 4],
+    fitness: Option<i32>,
+}
+
+impl Individual for Chromosome {
+    type GeneType = GeneType;
+    const GENES_SIZE: usize = 4;
+    fn new() -> Self {
+        let genes: [GeneType; 4] = array::from_fn(|_| GeneType::generate());
+        Chromosome {
+            genes,
+            fitness: None,
+        }
+    }
+    fn mutate_genes(&mut self) {
+        for gene in &mut self.genes {
+            gene.mutate();
+        }
+    }
+    fn genes(&self) -> &[Self::GeneType] {
+        &self.genes
+    }
+    fn genes_mut(&mut self) -> &mut [Self::GeneType] {
+        &mut self.genes
+    }
+    fn fitness(&self) -> Option<i32> {
+        self.fitness
+    }
+    fn fitness_mut(&mut self) -> &mut Option<i32> {
+        &mut self.fitness
+    }
+    fn calculate_fitness(&mut self) {
+        self.fitness = Some(1);
+    }
+}
+
 #[test]
 fn test_single_point_crossover_success() {
     let parent1_genes: [GeneType; 4] = [
@@ -34,14 +73,15 @@ fn test_single_point_crossover_success() {
         GeneType(false),
         GeneType(false),
     ];
-    let parent1: Chromosome<GeneType, 4> = Chromosome {
+    let parent1: Chromosome = Chromosome {
         genes: parent1_genes,
         fitness: None,
     };
-    let parent2: Chromosome<GeneType, 4> = Chromosome {
+    let parent2: Chromosome = Chromosome {
         genes: parent2_genes,
         fitness: None,
     };
+
     let (child1, child2) = single_point_crossover(&parent1, &parent2, 1.00);
 
     assert_ne!(child1.genes, parent1_genes);
@@ -63,11 +103,11 @@ fn test_single_point_crossover_no_probability() {
         GeneType(false),
     ];
 
-    let parent1: Chromosome<GeneType, 4> = Chromosome {
+    let parent1: Chromosome = Chromosome {
         genes: parent1_genes,
         fitness: None,
     };
-    let parent2: Chromosome<GeneType, 4> = Chromosome {
+    let parent2: Chromosome = Chromosome {
         genes: parent2_genes,
         fitness: None,
     };
@@ -92,11 +132,11 @@ fn test_two_point_crossover_success() {
         GeneType(false),
     ];
 
-    let parent1: Chromosome<GeneType, 4> = Chromosome {
+    let parent1: Chromosome = Chromosome {
         genes: parent1_genes,
         fitness: None,
     };
-    let parent2: Chromosome<GeneType, 4> = Chromosome {
+    let parent2: Chromosome = Chromosome {
         genes: parent2_genes,
         fitness: None,
     };

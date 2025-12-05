@@ -1,7 +1,3 @@
-#![allow(dead_code)]
-
-use std::array;
-
 /// A trait which allows a value to mutate itself in place
 pub trait Mutate: Sized {
     fn mutate(&mut self);
@@ -12,27 +8,18 @@ pub trait Generate: Sized {
     fn generate() -> Self;
 }
 
-/// A struct that holds a set of genes and a fitness value.
-#[derive(Debug, Clone, Copy)]
-pub struct Chromosome<GeneType: Mutate + Generate, const GENESIZE: usize> {
-    pub genes: [GeneType; GENESIZE],
-    pub fitness: Option<i32>,
-}
+/// A trait which represents a individual value.
+pub trait Individual: Sized + Clone {
+    type GeneType: Mutate + Generate + Clone + Copy;
+    const GENES_SIZE: usize;
 
-impl<GeneType: Mutate + Generate, const GENESIZE: usize> Chromosome<GeneType, GENESIZE> {
-    /// Creates a new chromosome with random genes
-    pub fn new() -> Self {
-        let genes = array::from_fn(|_| GeneType::generate());
-        Chromosome {
-            genes,
-            fitness: None,
-        }
-    }
+    fn new() -> Self;
 
-    /// Mutates all genes in a chromosome usin
-    pub fn mutate_genes(&mut self) {
-        for gene in &mut self.genes {
-            gene.mutate();
-        }
-    }
+    fn mutate_genes(&mut self);
+    fn genes(&self) -> &[Self::GeneType];
+    fn genes_mut(&mut self) -> &mut [Self::GeneType];
+
+    fn fitness(&self) -> Option<i32>;
+    fn fitness_mut(&mut self) -> &mut Option<i32>;
+    fn calculate_fitness(&mut self);
 }
