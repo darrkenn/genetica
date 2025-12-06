@@ -19,7 +19,7 @@ pub trait Individual: Sized + Clone {
     fn genes(&self) -> &[Self::GeneType];
     fn genes_mut(&mut self) -> &mut [Self::GeneType];
 
-    fn fitness(&self) -> Option<i32>;
-    fn fitness_mut(&mut self) -> &mut Option<i32>;
+    fn fitness(&self) -> Option<f32>;
+    fn fitness_mut(&mut self) -> &mut Option<f32>;
     fn calculate_fitness(&mut self);
 }

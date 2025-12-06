@@ -24,7 +24,7 @@ impl Mutate for GeneType {
 #[derive(Debug, Clone, Copy)]
 struct Chromosome {
     genes: [GeneType; 4],
-    fitness: Option<i32>,
+    fitness: Option<f32>,
 }
 
 impl Individual for Chromosome {
@@ -48,14 +48,14 @@ impl Individual for Chromosome {
     fn genes_mut(&mut self) -> &mut [Self::GeneType] {
         &mut self.genes
     }
-    fn fitness(&self) -> Option<i32> {
+    fn fitness(&self) -> Option<f32> {
         self.fitness
     }
-    fn fitness_mut(&mut self) -> &mut Option<i32> {
+    fn fitness_mut(&mut self) -> &mut Option<f32> {
         &mut self.fitness
     }
     fn calculate_fitness(&mut self) {
-        self.fitness = Some(1);
+        self.fitness = Some(0.0);
     }
 }
 
