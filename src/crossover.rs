@@ -1,4 +1,4 @@
-use std::{cmp::min, mem::swap};
+use std::cmp::min;
 
 use crate::individual::{DynamicLengthIndividual, FixedLengthIndividual};
 
