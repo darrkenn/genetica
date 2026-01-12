@@ -8,18 +8,29 @@ pub trait Generate: Sized {
     fn generate() -> Self;
 }
 
-/// A trait which represents a individual value.
 pub trait Individual: Sized + Clone {
-    type GeneType: Mutate + Generate + Clone + Copy;
-    const GENES_SIZE: usize;
+    type GeneType: Mutate + Generate + Clone;
 
     fn new() -> Self;
 
     fn mutate_genes(&mut self);
-    fn genes(&self) -> &[Self::GeneType];
-    fn genes_mut(&mut self) -> &mut [Self::GeneType];
-
     fn fitness(&self) -> Option<f32>;
     fn fitness_mut(&mut self) -> &mut Option<f32>;
     fn calculate_fitness(&mut self);
+}
+
+/// A trait which represents a individual of fixed length.
+pub trait FixedLengthIndividual: Individual + Sized + Clone
+where
+    Self::GeneType: Copy,
+{
+    const GENES_SIZE: usize;
+    fn genes(&self) -> &[Self::GeneType];
+    fn genes_mut(&mut self) -> &mut [Self::GeneType];
+}
+
+/// A trait which represents a individual of dynamic length.
+pub trait DynamicLengthIndividual: Individual + Sized + Clone {
+    fn genes(&self) -> &Vec<Self::GeneType>;
+    fn genes_mut(&mut self) -> &mut Vec<Self::GeneType>;
 }
