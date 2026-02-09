@@ -1,11 +1,8 @@
-use std::array;
-
 use genetica::{
-    crossover::{
-        dynamic_length_single_point_crossover, dynamic_length_two_point_crossover,
-        fixed_length_single_point_crossover, fixed_length_two_point_crossover,
-    },
-    individual::{DynamicLengthIndividual, FixedLengthIndividual, Generate, Individual, Mutate},
+    crossover::{dynamic_length_single_point_crossover, dynamic_length_two_point_crossover},
+    individual::{DynamicLengthIndividual, Generate, Individual, Mutate},
+    population::generate_population,
+    selection::tournament_selection,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -124,4 +121,45 @@ fn test_dynamic_two_point_crossover_success() {
 
     assert_ne!(child1.genes, parent1.genes);
     assert_ne!(child2.genes, parent2.genes);
+}
+
+#[test]
+fn test_tournament_selection_success() {
+    let population: Vec<DynamicLengthChromosome> = generate_population(8);
+    let winners = match tournament_selection(&population, 4, 3) {
+        Ok(winners) => winners,
+        Err(e) => {
+            panic!("{e}")
+        }
+    };
+    assert_eq!(3, winners.len());
+}
+
+#[test]
+fn test_tournament_selection_invalid_size() {
+    let population: Vec<DynamicLengthChromosome> = generate_population(8);
+    let _ = match tournament_selection(&population, 1000, 3) {
+        Ok(_) => {
+            panic!("Function returned ok when it should have errored out")
+        }
+        Err(e) => {
+            assert_eq!("Tournament size larger than population", e.to_string());
+        }
+    };
+}
+
+#[test]
+fn test_tournament_selection_invalid_winner_count() {
+    let population: Vec<DynamicLengthChromosome> = generate_population(8);
+    let _ = match tournament_selection(&population, 4, 11111) {
+        Ok(_) => {
+            panic!("Function return ok when it shoud have errored out");
+        }
+        Err(e) => {
+            assert_eq!(
+                "Number of winners larger than tournament size",
+                e.to_string()
+            );
+        }
+    };
 }
