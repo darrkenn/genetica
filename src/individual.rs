@@ -14,8 +14,8 @@ pub trait Individual: Sized + Clone {
     fn new() -> Self;
 
     fn mutate_genes(&mut self);
-    fn fitness(&self) -> Option<f32>;
-    fn fitness_mut(&mut self) -> &mut Option<f32>;
+    fn fitness(&self) -> f32;
+    fn fitness_mut(&mut self) -> &mut f32;
     fn calculate_fitness(&mut self);
 }
 

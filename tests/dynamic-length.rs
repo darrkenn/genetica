@@ -25,7 +25,7 @@ impl Mutate for GeneType {
 #[derive(Debug, Clone)]
 struct DynamicLengthChromosome {
     genes: Vec<GeneType>,
-    fitness: Option<f32>,
+    fitness: f32,
 }
 
 impl Individual for DynamicLengthChromosome {
@@ -35,7 +35,7 @@ impl Individual for DynamicLengthChromosome {
         let genes: Vec<GeneType> = (0..4).map(|_| GeneType::generate()).collect();
         DynamicLengthChromosome {
             genes,
-            fitness: None,
+            fitness: 0.00,
         }
     }
     fn mutate_genes(&mut self) {
@@ -44,14 +44,15 @@ impl Individual for DynamicLengthChromosome {
         }
     }
 
-    fn fitness(&self) -> Option<f32> {
+    fn fitness(&self) -> f32 {
         self.fitness
     }
-    fn fitness_mut(&mut self) -> &mut Option<f32> {
+
+    fn fitness_mut(&mut self) -> &mut f32 {
         &mut self.fitness
     }
     fn calculate_fitness(&mut self) {
-        self.fitness = Some(0.00);
+        self.fitness = 0.00;
     }
 }
 
@@ -71,11 +72,11 @@ fn test_dynamic_single_point_crossover_success() {
 
     let parent1: DynamicLengthChromosome = DynamicLengthChromosome {
         genes: parent1_genes,
-        fitness: None,
+        fitness: 0.00,
     };
     let parent2: DynamicLengthChromosome = DynamicLengthChromosome {
         genes: parent2_genes,
-        fitness: None,
+        fitness: 0.00,
     };
 
     let (child1, child2) = dynamic_length_single_point_crossover(&parent1, &parent2, 1.00);
@@ -91,11 +92,11 @@ fn test_dynamic_single_point_crossover_no_probability() {
 
     let parent1: DynamicLengthChromosome = DynamicLengthChromosome {
         genes: parent1_genes,
-        fitness: None,
+        fitness: 0.00,
     };
     let parent2: DynamicLengthChromosome = DynamicLengthChromosome {
         genes: parent2_genes,
-        fitness: None,
+        fitness: 0.00,
     };
 
     let (child1, child2) = dynamic_length_single_point_crossover(&parent1, &parent2, 0.00);
@@ -111,11 +112,11 @@ fn test_dynamic_two_point_crossover_success() {
 
     let parent1: DynamicLengthChromosome = DynamicLengthChromosome {
         genes: parent1_genes,
-        fitness: None,
+        fitness: 0.00,
     };
     let parent2: DynamicLengthChromosome = DynamicLengthChromosome {
         genes: parent2_genes,
-        fitness: None,
+        fitness: 0.00,
     };
     let (child1, child2) = dynamic_length_two_point_crossover(&parent1, &parent2, 1.00);
 

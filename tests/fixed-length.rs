@@ -25,7 +25,7 @@ impl Mutate for GeneType {
 #[derive(Debug, Clone, Copy)]
 struct FixedLengthChromosome {
     genes: [GeneType; 4],
-    fitness: Option<f32>,
+    fitness: f32,
 }
 
 impl Individual for FixedLengthChromosome {
@@ -35,7 +35,7 @@ impl Individual for FixedLengthChromosome {
         let genes: [GeneType; 4] = array::from_fn(|_| GeneType::generate());
         FixedLengthChromosome {
             genes,
-            fitness: None,
+            fitness: 0.00,
         }
     }
     fn mutate_genes(&mut self) {
@@ -44,14 +44,14 @@ impl Individual for FixedLengthChromosome {
         }
     }
 
-    fn fitness(&self) -> Option<f32> {
+    fn fitness(&self) -> f32 {
         self.fitness
     }
-    fn fitness_mut(&mut self) -> &mut Option<f32> {
+    fn fitness_mut(&mut self) -> &mut f32 {
         &mut self.fitness
     }
     fn calculate_fitness(&mut self) {
-        self.fitness = Some(0.00);
+        self.fitness = 0.00;
     }
 }
 
@@ -81,11 +81,11 @@ fn test_fixed_single_point_crossover_success() {
     ];
     let parent1: FixedLengthChromosome = FixedLengthChromosome {
         genes: parent1_genes,
-        fitness: None,
+        fitness: 0.00,
     };
     let parent2: FixedLengthChromosome = FixedLengthChromosome {
         genes: parent2_genes,
-        fitness: None,
+        fitness: 0.00,
     };
 
     let (child1, child2) = fixed_length_single_point_crossover(&parent1, &parent2, 1.00);
@@ -111,11 +111,11 @@ fn test_fixed_single_point_crossover_no_probability() {
 
     let parent1: FixedLengthChromosome = FixedLengthChromosome {
         genes: parent1_genes,
-        fitness: None,
+        fitness: 0.00,
     };
     let parent2: FixedLengthChromosome = FixedLengthChromosome {
         genes: parent2_genes,
-        fitness: None,
+        fitness: 0.00,
     };
     let (child1, child2) = fixed_length_single_point_crossover(&parent1, &parent2, 0.00);
 
@@ -140,11 +140,11 @@ fn test_fixed_two_point_crossover_success() {
 
     let parent1: FixedLengthChromosome = FixedLengthChromosome {
         genes: parent1_genes,
-        fitness: None,
+        fitness: 0.00,
     };
     let parent2: FixedLengthChromosome = FixedLengthChromosome {
         genes: parent2_genes,
-        fitness: None,
+        fitness: 0.00,
     };
     let (child1, child2) = fixed_length_two_point_crossover(parent1, parent2, 1.00);
 

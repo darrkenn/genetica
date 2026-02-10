@@ -21,8 +21,7 @@ where
 {
     population.sort_by(|a, b| {
         a.fitness()
-            .unwrap()
-            .partial_cmp(&b.fitness().unwrap())
+            .partial_cmp(&b.fitness())
             .unwrap_or(cmp::Ordering::Less)
     });
 }
@@ -34,8 +33,7 @@ where
 {
     population.sort_by(|a, b| {
         b.fitness()
-            .unwrap()
-            .partial_cmp(&a.fitness().unwrap())
+            .partial_cmp(&a.fitness())
             .unwrap_or(cmp::Ordering::Greater)
     });
 }

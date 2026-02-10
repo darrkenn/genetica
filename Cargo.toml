@@ -1,6 +1,6 @@
 [package]
 name = "genetica"
-version = "2.1.2"
+version = "2.2.0"
 edition = "2024"
 description = "A crate that helps with creating genetic algorithms"
 readme = "README.md"
@@ -8,4 +8,4 @@ repository = "https://github.com/darrkenn/genetica"
 license = "MIT"
 
 [dependencies]
-rand = "0.9.2"
+rand = "0.10.0"
