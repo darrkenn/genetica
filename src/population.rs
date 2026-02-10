@@ -3,11 +3,11 @@ use std::cmp;
 use crate::individual::Individual;
 
 /// Generates a new population of chromosomes
-pub fn generate_population<I>(population_size: i32) -> Vec<I>
+pub fn generate_population<I>(population_size: usize) -> Vec<I>
 where
     I: Individual,
 {
-    let mut population: Vec<I> = Vec::new();
+    let mut population: Vec<I> = Vec::with_capacity(population_size);
     for _ in 0..population_size {
         population.push(Individual::new());
     }
