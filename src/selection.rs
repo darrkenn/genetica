@@ -1,5 +1,6 @@
 use crate::individual::Individual;
 
+/// Selects the most fit individiuals in a tournament
 pub fn tournament_selection<I>(
     population: &Vec<I>,
     size: usize,

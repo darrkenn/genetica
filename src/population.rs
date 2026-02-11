@@ -1,5 +1,7 @@
 use std::cmp;
 
+use rayon::iter::{IntoParallelIterator, ParallelIterator};
+
 use crate::individual::Individual;
 
 /// Generates a new population of chromosomes
@@ -11,6 +13,19 @@ where
     for _ in 0..population_size {
         population.push(Individual::new());
     }
+    population
+}
+
+/// Generates a new population of chromosomes in parallel
+pub fn generate_population_parallel<I>(population_size: usize) -> Vec<I>
+where
+    I: Individual,
+    I: Send,
+{
+    let population: Vec<I> = (0..population_size)
+        .into_par_iter()
+        .map(|_| Individual::new())
+        .collect();
     population
 }
 
